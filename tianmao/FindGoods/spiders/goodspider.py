@@ -24,7 +24,7 @@ class FindGoods(Spider):
         # 反复确认是否搜索成功
         if response.url == "https://www.tmall.com/":
             # 读取临时文件
-            temp = open('tempgoods.temp', 'r')
+            temp = open('tempgoods.txt', 'r')
             good = temp.read()
             temp.close()
             # 天猫搜索该商品第一页
@@ -102,6 +102,8 @@ class FindGoods(Spider):
                 score = revinum + (tradnum * 2)
                 item['score'] = round(score)
                 yield(item)
+            print(response.url)
+            i = input()
             # 提取商品名
             good = response.url[(response.url.index("q=") + 2):response.url.index("&type=p&v")]
             next_page_urls = [

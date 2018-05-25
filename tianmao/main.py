@@ -10,9 +10,9 @@ import csv
 import os
 import string
 import sys
-import ttk
+from tkinter import ttk
 import webbrowser
-from Tkinter import *
+from tkinter import *
 
 def refreshTree():
     # 清空
@@ -21,7 +21,7 @@ def refreshTree():
         tree.delete(item)
     # 读取csv
     if os.path.exists('goods.csv'):
-        csvfile = file('goods.csv', 'rb')
+        csvfile = open('goods.csv', 'r')
         if csvfile:
             lines = []
             reader = csv.reader(csvfile)
@@ -51,9 +51,8 @@ def startSpider():
     # 获取文本框内容
     good = var.get()
     # 关键字保存至临时文件
-    temp = open('tempgoods.temp', 'w')
-    temp.write(good.encode(sys.getfilesystemencoding()))
-    temp.close()
+    with open('tempgoods.txt', 'wt') as f:
+        f.write(good)
 
     # 清空goods.csv
     if os.path.exists('goods.csv'):
@@ -61,7 +60,7 @@ def startSpider():
         csvfile.truncate()
 
     # 开始爬虫程序
-    os.system("runscrapy.py")
+    os.system("python3 runscrapy.py")
 
 def onDBClick(event):
     # 点击跳转天猫
@@ -70,8 +69,8 @@ def onDBClick(event):
     url = info[2]
     webbrowser.open_new(url)
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 
 root = Tk()
 root.title("FindGoods")
