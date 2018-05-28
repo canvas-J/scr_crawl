@@ -14,6 +14,7 @@ from tkinter import ttk
 import webbrowser
 from tkinter import *
 
+
 def refreshTree():
     # 清空
     items = tree.get_children()
