@@ -6,6 +6,7 @@ Created on 2016-12-15
 @author: Sawatari
 '''
 
+import urllib.parse
 import string
 import sys
 from scrapy.http import Request
@@ -26,9 +27,12 @@ class FindGoods(Spider):
             # 读取临时文件
             temp = open('tempgoods.txt', 'r')
             good = temp.read()
+            goood = urllib.parse.quote(good.encode('utf-8', 'replace'))
             temp.close()
             # 天猫搜索该商品第一页
-            url = "https://list.tmall.com/search_product.htm?q=" + good + "&type=p&vmarket=&spm=875.7931836%2FA.a2227oh.d100&from=mallfp..pc_1_searchbutton"
+            url = "https://list.tmall.com/search_product.htm?q=" + good + "&type=p&vmarket=&spm=875.7931836%2FB.a2227oh.d100&from=mallfp..pc_1_searchbutton"
+            #如果此网站编码是gbk的话，需要进行解码，从gbk解码成unicode，再从Unicode编码编码为utf-8格式。
+
             yield Request(url, callback=self.parse)
 
         else:
@@ -113,3 +117,9 @@ class FindGoods(Spider):
             # 递归获取后两页
             for next_page_url in next_page_urls:
                 yield Request(next_page_url, callback=self.parse)
+
+
+'''
+'https://list.tmall.com/search_product.htm?q=%CA%D6%BB%FA&type=p&vmarket=&spm=875.7931836%2FB.a2227oh.d100&from=mallfp..pc_1_searchbutton'
+'https://list.tmall.com/search_product.htm?q=" + good + "&type=p&vmarket=&spm=875.7931836%2FB.a2227oh.d100&from=mallfp..pc_1_searchbutton'
+'''
