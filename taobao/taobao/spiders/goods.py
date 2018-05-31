@@ -20,12 +20,13 @@ class GoodsSpider(Spider):
         for url in start_urls:
             yield Request(url=url, callback=self.parse)
 
-    def parse(self, response):
+    def parse(self, response, next_url):
         selector = response.xpath('//div[contains(@class, "item J_MouserOnverReq")]/div/div/a/@href').extract()
         for url in selector:
             item = TaobaoItem()
             url = "http:" + url
             item['url'] = url
+        yield Request(url=response.next_url, callback=self.parse)
             # url = "http" + url[2:]
         # 关键是这里必须要有下一页的链接请求给中间件处理，但淘宝的下一页如何处理是个难题
         # 看能否在中间件改成生成器试试

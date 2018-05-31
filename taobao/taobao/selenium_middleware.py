@@ -2,16 +2,10 @@ from scrapy.http import HtmlResponse
 from selenium.common.exceptions import TimeoutException
 import time
 
-class Callback:  
-    def __init__(self, instance, function_name):  
-        self.instance = instance  
-        self.function_name = function_name  
-  
-    def action(self, params):  
-        self.instance.__getattribute__(self.function_name)(params)  
-
-
 class SeleniumMiddleware(object):
+    def __init__(self):
+        self.next_url = ''
+
     def process_request(self, request, spider):
         if request.url == 'https://www.taobao.com/':
             try:
@@ -40,24 +34,55 @@ class SeleniumMiddleware(object):
                 span_num = spider.browser.find_element_by_xpath('//ul[@class="items"]')
                 page_num = span_num.text.split('/')[-1]
                 print("已获取第一页，总共{}页".format(page_num))
-                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
+                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight-800)')
                 time.sleep(2)
 
+
+                next_btn = spider.browser.find_element_by_xpath('//a[@trace="srp_bottom_pagedown"]')
+                next_btn.click()
+                time.sleep(3)
+
+
+                self.next_url = spider.browser.current_url
+                print(self.next_url)
+
+                pre_btn = spider.browser.find_element_by_xpath('//a[@trace="srp_bottom_pageup"]')
+                pre_btn.click()
+                time.sleep(3)
+                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight-800)')
+                time.sleep(2)              
+
                 return HtmlResponse(url=spider.browser.current_url, body=spider.browser.page_source,
-                                encoding="utf-8", request=request, callback=self.process_request)
+                                encoding="utf-8", request=request, next_url=self.next_url)
             except TimeoutException as e:
                 print('超时')
                 spider.browser.execute_script('window.stop()')
         else:
             try:
 
-                next_btn = self.browser.find_element_by_xpath('//a[@trace="srp_bottom_pagedown"]')
+                next_btn = spider.browser.find_element_by_xpath('//a[@trace="srp_bottom_pagedown"]')
                 next_btn.click()
                 time.sleep(3)
-                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
+                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight-800)')
+                time.sleep(2)
+
+
+                next_btn = spider.browser.find_element_by_xpath('//a[@trace="srp_bottom_pagedown"]')
+                next_btn.click()
+                time.sleep(3)
+
+
+                self.next_url = spider.browser.current_url
+                print(self.next_url)
+
+                pre_btn = spider.browser.find_element_by_xpath('//a[@trace="srp_bottom_pageup"]')
+                pre_btn.click()
+                time.sleep(3)
+                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight-800)')
+                time.sleep(2)
 
                 return HtmlResponse(url=spider.browser.current_url, body=spider.browser.page_source,
-                                encoding="utf-8", request=request, callback=self.process_request)
+                                encoding="utf-8", request=request, next_url=self.next_url)
 
             except TimeoutException as e:
                 print('超时')
