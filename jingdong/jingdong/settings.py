@@ -14,8 +14,8 @@ BOT_NAME = 'jingdong'
 SPIDER_MODULES = ['jingdong.spiders']
 NEWSPIDER_MODULE = 'jingdong.spiders'
 
-KEYWORD = '牙膏'
-MAX_PAGE = 100
+# KEYWORD = '牙膏'
+# MAX_PAGE = 100
 
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False

@@ -24,8 +24,10 @@ class JdgoodsSpider(Spider):
 
     def start_requests(self):
         urls = []
-        keyword = self.settings.get('KEYWORD')
-        for i in range(self.settings.get('MAX_PAGE')):
+        keyword = input("请输入你要爬取的关键词\t")
+        pages = input("请输入你要爬取的页数\t")
+        # keyword = self.settings.get('KEYWORD')
+        for i in range(pages):
             urls.append('https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq={}&psort=3&cid2=653&cid3=655&page={}&s={}&click=0'.format(keyword, keyword, 2*i+1, 60*i+1))
         for url in urls:
             yield Request(url=url, callback=self.parse)
