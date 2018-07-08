@@ -41,11 +41,11 @@ class TaobaoSpider(RedisSpider):
             now_price = all_now_price[i]
             address = all_address[i]
             url = "https://item.taobao.com/item.htm?id=" + str(this_id)
-            yield Request(url=url, callback=self.next, meta={ 'now_price': now_price, 'address': address})
+            yield Request(url=url, callback=self.parse_item, meta={ 'now_price': now_price, 'address': address})
             pass
         pass
 
-    def next(self, response):
+    def parse_item(self, response):
         item = TaobaoSpiderItem()
         url = response.url
         # pat_url = "https://(.*?).com"
