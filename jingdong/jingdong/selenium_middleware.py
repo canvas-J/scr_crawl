@@ -11,9 +11,8 @@ class SeleniumMiddleware(object):
                 time.sleep(random.randint(1, 2))
                 spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*7/10)')
                 time.sleep(random.randint(1, 2))
-                target = spider.browser.find_element_by_id("J_bottomPage")
-                spider.browser.execute_script("arguments[0].scrollIntoView();", target)
-                time.sleep(random.randint(1, 2))            
+                spider.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
+                time.sleep(random.randint(1, 2))          
                 return HtmlResponse(url=spider.browser.current_url, body=spider.browser.page_source,
                                 encoding="utf-8", request=request)
             except TimeoutException:

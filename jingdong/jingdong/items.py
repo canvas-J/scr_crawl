@@ -8,16 +8,26 @@
 from scrapy import Item, Field
 
 
-class JingdongItem(scrapy.Item):
+class JingdongItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    platform = Field()
     shop_name = Field()
     goods_name = Field()
     normal_price = Field()
-    now_price = Field()
-    mon_sales = Field()
+    # now_price = Field()
+    # mon_sales = Field()
     total_views = Field()
-    stock = Field()
+    # stock = Field()
     brand = Field()
-    delivery_port = Field()
-    platform = Field()
+    item0 = Field()
+    item1 = Field()
+    item2 = Field()
+    item3 = Field()
+    item4 = Field()
+    item5 = Field()
+    item6 = Field()
+    item7 = Field()
+    item8 = Field()
+
+
