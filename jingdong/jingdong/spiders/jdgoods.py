@@ -15,6 +15,7 @@ class JdgoodsSpider(Spider):
         opt = webdriver.ChromeOptions()
         # opt.add_argument('headless')
         opt.add_argument('disable-gpu')
+        opt.add_argument('disable-infobars')
         opt.add_argument('useragent="{}"'.format(UserAgent().random))
         self.browser = webdriver.Chrome(chrome_options=opt)
         self.browser.set_page_load_timeout(30)
@@ -29,14 +30,17 @@ class JdgoodsSpider(Spider):
             return True
         except:
             return False
-
+    # def start_requests(self):
+    #     urls = ["https://item.jd.com/7089302.html"]
+    #     for url in urls:
+    #         yield Request(url=url, callback=self.parse_item)
     def start_requests(self):
         urls = []
         keyword = input("请输入你要爬取的关键词\t")
         pages = input("请输入你要爬取的页数\t")
         # keyword = self.settings.get('KEYWORD')
         for i in range(int(pages)):
-            urls.append('https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq={}&psort=3&cid2=653&cid3=655&page={}&s={}&click=0'.format(keyword, keyword, 2*i+1, 60*i+1))
+            urls.append('https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq={}&psort=3&stock=1&page={}&s={}&click=0'.format(keyword, keyword, 2*i+1, 60*i+1))
         for url in urls:
             yield Request(url=url, callback=self.parse)
 
@@ -45,16 +49,18 @@ class JdgoodsSpider(Spider):
         page_links = response.xpath('//li[@class="gl-item"]/div/div[@class="p-img"]/a/@href').extract()
         for link in page_links:
             link = "https:" + link
+            # print(link)
             yield Request(url=link, callback=self.parse_item)
 
     def parse_item(self, response):
-        soup = bs(response, "lxml")
+        soup = bs(response.text, "lxml")
+        print(soup.select_one('#logo-2014 > a'))
+
+        print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
         # 详情页抽取数据
-        print(soup.select_one('#popbox > div > div > h3 > a'))
-        i = input()
         l = ItemLoader(item=JingdongItem(), response=response)
         # 使用add_xpath方法，传递Item类的字段名称和对应的xpath解析语法
-        if self.isExist('#popbox > div > div > h3 > a', soup):
+        if self.isExist('#logo-2014 > a', soup):
             l.add_xpath('platform', '//div[@id="logo-2014"]/a/text()')
         else:
             l.add_value('platform', '')
@@ -106,6 +112,6 @@ class JdgoodsSpider(Spider):
         else:
             for i in range(6):
                 l.add_value('item{}'.format(i), '')
-
+        print(l.load_item)
         return l.load_item
 

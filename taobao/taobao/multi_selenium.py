@@ -9,10 +9,10 @@ import time
 class SeleniumMiddleware(object):
     def __init__(self):
         # Initialize browser
-        options = webdriver.FirefoxOptions()
-        options.add_argument('-headless')
+        options = webdriver.ChromeOptions()
+        # options.add_argument('headless')
         options.add_argument('useragent="{}"'.format(UserAgent().random))
-        self.browser = webdriver.Firefox(firefox_options=options)
+        self.browser = webdriver.Chrome(chrome_options=options)
 
         # get project settings
         settings=get_project_settings()
