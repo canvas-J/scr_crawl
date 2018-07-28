@@ -9,7 +9,7 @@ class BrandsSpider(scrapy.Spider):
     name = 'brands'
     allowed_domains = ['www.bevol.cn']
     start_urls = []
-    brands_file = open('品牌列表.txt')
+    brands_file = open('brands.txt')
     brands_list = brands_file.readlines()
     for dex in brands_list:
         start_urls.append('https://www.bevol.cn/product?keywords={}'.format(dex))
