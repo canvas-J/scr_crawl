@@ -33,9 +33,9 @@ class ClinksSpider(scrapy.Spider):
             item['c_address'] = company.xpath('string(.//li[@class="pp_address"])').extract()
             yield item
 
-            if '-y' not in response.url:
-                total_page = response.xpath('//li[@class="spagelist"]/strong[2]/text()').extract_first()
-                print(total_page)
-                for page in range(2, int(total_page)+1):
-                    url = response.url + "-y{}/".format(page)
-                    yield scrapy.Request(url=url, callback=self.parse_item)
+        if '-y' not in response.url:
+            total_page = response.xpath('//li[@class="spagelist"]/strong[2]/text()').extract_first()
+            print(total_page)
+            for page in range(2, int(total_page)+1):
+                url = response.url + "-y{}/".format(page)
+                yield scrapy.Request(url=url, callback=self.parse_item)
