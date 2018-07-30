@@ -13,7 +13,9 @@ class ClinksSpider(scrapy.Spider):
         for each_url in response.xpath('//li[contains(@id, "filter")]'):
             num += 1
             if num > 8:
-                links = 'https://www.atobo.com.cn' + each_url.xpath('.//a/@href').extract_first()
+                link = each_url.xpath('.//a/@href').extract_first()
+                link = link[:11] + "-p2" + link[11:]
+                links = 'https://www.atobo.com.cn' + link
                 yield scrapy.Request(url=links, callback=self.parse_item)
 
     def parse_item(self, response):
