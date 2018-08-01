@@ -39,6 +39,8 @@ class ClinksSpider(scrapy.Spider):
             if '-y' not in response.url:
                 total_page = response.xpath('//li[@class="spagelist"]/strong[2]/text()').extract_first()
                 print(total_page)
+                if total_page > 50:
+                    total_page = 50
                 for page in range(2, int(total_page)+1):
                     url = response.url + "-y{}/".format(page)
                     yield scrapy.Request(url=url, callback=self.parse_item)
