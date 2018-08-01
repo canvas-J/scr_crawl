@@ -50,10 +50,28 @@ DEFAULT_REQUEST_HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.3; WOW64) A
 #    'atobourl.middlewares.AtobourlSpiderMiddleware': 543,
 #}
 
+IPPOOL = [
+    {"ip":"171.10.31.73:8080"},
+    {"ip":"221.7.255.167:8080"},
+    {"ip":"101.96.11.5:80"},
+    {"ip":"219.141.153.39:80"},
+    {"ip":"117.127.0.203:8080"},
+    {"ip":"101.96.10.5:80"},
+    {"ip":"120.24.49.226:8080"},
+    {"ip":"117.127.0.205:8080"},
+    {"ip":"120.24.49.226:8080"},
+    {"ip":"120.24.49.226:8080"},
+    {"ip":"117.127.0.195:8080"},
+    {"ip":"117.127.0.201:8080"},
+    {"ip":"202.100.83.139:80"},
+    {"ip":"59.44.16.6:8080"}
+]
+
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-        # 'atobourl.multi_selenium.SeleniumMiddleware': 542,
+        'atobourl.ProxyMidware.MyproxiesMidware': 541,
+        'atobourl.multi_selenium.SeleniumMiddleware': 542,
         'atobourl.UseragentMidware.RandomUseragentMidware': 543, 
         'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
         }
