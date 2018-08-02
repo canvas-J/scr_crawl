@@ -13,6 +13,7 @@ BOT_NAME = 'jingdong'
 
 SPIDER_MODULES = ['jingdong.spiders']
 NEWSPIDER_MODULE = 'jingdong.spiders'
+JOBDIR = 'jd_items'
 
 # KEYWORD = '牙膏'
 # MAX_PAGE = 100
@@ -24,14 +25,17 @@ DOWNLOAD_DELAY = 4
 RANDOMIZE_DOWNLOAD_DELAY = True
 CONCURRENT_REQUESTS = 6
 
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36'
+DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36',
+        'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        'Accept-Encoding': 'gzip'}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'jingdong.selenium_middleware.SeleniumMiddleware': 543,
-}
-
+        'jingdong.multi_selenium.SeleniumMiddleware': 542,
+        'jingdong.UseragentMidware.RandomUseragentMidware': 543, 
+        'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
+        }
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -54,13 +58,6 @@ DOWNLOADER_MIDDLEWARES = {
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
 #}
-
-# Enable or disable spider middlewares
-# See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'jingdong.middlewares.JingdongSpiderMiddleware': 543,
-#}
-
 
 
 # Enable or disable extensions
