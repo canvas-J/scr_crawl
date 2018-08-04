@@ -11,18 +11,18 @@ class JdgoodsSpider(Spider):
 
     name = 'jdgoods'
 
-    def __init__(self):
-        opt = webdriver.ChromeOptions()
-        # opt.add_argument('headless')
-        opt.add_argument('disable-gpu')
-        opt.add_argument('disable-infobars')
-        opt.add_argument('useragent="{}"'.format(UserAgent().random))
-        self.browser = webdriver.Chrome(chrome_options=opt)
-        self.browser.set_page_load_timeout(30)
+    # def __init__(self):
+    #     opt = webdriver.ChromeOptions()
+    #     # opt.add_argument('headless')
+    #     opt.add_argument('disable-gpu')
+    #     opt.add_argument('disable-infobars')
+    #     opt.add_argument('useragent="{}"'.format(UserAgent().random))
+    #     self.browser = webdriver.Chrome(chrome_options=opt)
+    #     self.browser.set_page_load_timeout(30)
 
-    def closed(self,spider):
-        print("spider closed")
-        self.browser.close()
+    # def closed(self,spider):
+    #     print("spider closed")
+    #     self.browser.close()
 
     def isExist(self, rule, soup):
         try:
