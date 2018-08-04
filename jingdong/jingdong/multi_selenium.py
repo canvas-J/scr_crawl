@@ -45,13 +45,12 @@ class SeleniumMiddleware(object):
             self.browser.execute_script(js)
             if 'search.jd.com' in request.url:
                     self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight/2)')
-                    time.sleep(random.randint(1, 2))
+                    time.sleep(0.8)
                     self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*7/10)')
-                    time.sleep(random.randint(1, 2))
+                    time.sleep(0.8)
                     self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
-                    time.sleep(random.randint(1, 2))
+                    time.sleep(0.8)
             elif 'item.jd.com' in request.url:
-                    time.sleep(1)
                     self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*2/5)')
                     time.sleep(1)
             # wait for 1s to avoid some bug ("document.readyState" will return a "complete" at the first)

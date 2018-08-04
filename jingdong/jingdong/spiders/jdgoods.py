@@ -24,21 +24,12 @@ class JdgoodsSpider(Spider):
     #     print("spider closed")
     #     self.browser.close()
 
-    def isExist(self, rule, soup):
-        try:
-            soup.select_one(rule)
-            return True
-        except:
-            return False
-    # def start_requests(self):
-    #     urls = ["https://item.jd.com/7089302.html"]
-    #     for url in urls:
-    #         yield Request(url=url, callback=self.parse_item)
     def start_requests(self):
         urls = []
-        keyword = input("请输入你要爬取的关键词\t")
-        pages = input("请输入你要爬取的页数\t")
-        # keyword = self.settings.get('KEYWORD')
+        # keyword = input("请输入你要爬取的关键词\t")
+        # pages = input("请输入你要爬取的页数\t")
+        keyword = self.settings.get('KEYWORD')
+        pages = self.settings.get('MAX_PAGE')
         for i in range(int(pages)):
             urls.append('https://search.jd.com/Search?keyword={}&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&wq={}&psort=3&stock=1&page={}&s={}&click=0'.format(keyword, keyword, 2*i+1, 60*i+1))
         for url in urls:
@@ -58,65 +49,62 @@ class JdgoodsSpider(Spider):
     def parse_item(self, response):
         if response.status==200:
             soup = bs(response.text, "lxml")
-            print(soup.select_one('#logo-2014 > a'))
-
             print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
             # 详情页抽取数据
             l = ItemLoader(item=JingdongItem(), response=response)
             # 使用add_xpath方法，传递Item类的字段名称和对应的xpath解析语法
-            if self.isExist('#logo-2014 > a', soup):
+            try:
                 l.add_xpath('platform', '//div[@id="logo-2014"]/a/text()')
-            else:
+            except:
                 l.add_value('platform', '')
 
-            if self.isExist('#popbox > div > div > h3 > a', soup):
+            try:
                 l.add_xpath('shop_name', '//div[@id="popbox"]/div/div[1]/h3/a/text()')
-            else:
+            except:
                 l.add_value('shop_name', '')
 
-            if self.isExist('.sku-name', soup):
+            try:
                 l.add_xpath('goods_name', '//div[@class="sku-name"]/text()')
-            else:
+            except:
                 l.add_value('goods_name', '')
 
-            if self.isExist('.summary-price-wrap > div > div > span > span', soup):
+            try:
                 l.add_xpath('normal_price', '//div[@class="summary-price-wrap"]/div[1]/div[2]/span/span[2]/text()')
-            else:
+            except:
                 l.add_value('normal_price', '')
 
-            # if self.isExist('#price, soup):
+            # try:
             #     l.add_xpath('now_price', '//p[@id="price"]')
-            # else:
+            # except:
             #     l.add_value('now_price', '')
 
-            # if self.isExist('#popbox > div > div > h3 > a', soup):
+            # try:
         #         l.add_xpath('mon_sales', '//p[@id="price"]')
-            # else:
+            # except:
             #     l.add_value('mon_sales', '')
 
-            if self.isExist('#comment-count > a', soup):
+            try:
                 l.add_xpath('total_views', '//div[@id="comment-count"]/a/text()')
-            else:
+            except:
                 l.add_value('total_views', '')
 
-            # if self.isExist('#popbox > div > div > h3 > a', soup):
+            # try:
             #     l.add_xpath('stock', '//p[@id="price"]')
-            # else:
+            # except:
             #     l.add_value('stock', '')
 
-            if self.isExist('#parameter-brand > li > a', soup):
+            try:
                 l.add_xpath('brand', '//ul[@id="parameter-brand"]/li/a/text()')
-            else:
+            except:
                 l.add_value('brand', '')
 
-            if self.isExist('.p-parameter > ul', soup):
+            try:
                 details = soup.select('.p-parameter > ul[3] > li')
                 for i in range(len(details)):
                     l.add_value('item{}'.format(i), details[i].string)
-            else:
+            except:
                 for i in range(6):
                     l.add_value('item{}'.format(i), '')
-            print(l.load_item)
-            return l.load_item
+            yield l.load_item()
         elif response.status==202:
-            yield Request(response.url, callback=self.parse, dont_filter=True)
+            yield Request(response.url, callback=self.parse_item, dont_filter=True)

@@ -15,15 +15,15 @@ SPIDER_MODULES = ['jingdong.spiders']
 NEWSPIDER_MODULE = 'jingdong.spiders'
 JOBDIR = 'jd_items'
 
-# KEYWORD = '牙膏'
-# MAX_PAGE = 100
+KEYWORD = '牙膏'
+MAX_PAGE = 1
 
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False
 
-DOWNLOAD_DELAY = 2
+DOWNLOAD_DELAY = 1
 RANDOMIZE_DOWNLOAD_DELAY = True
-CONCURRENT_REQUESTS = 6
+CONCURRENT_REQUESTS = 3
 
 DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36',
         'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -36,28 +36,10 @@ DOWNLOADER_MIDDLEWARES = {
         'jingdong.UseragentMidware.RandomUseragentMidware': 543, 
         'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
         }
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
 
-# Configure a delay for requests for the same website (default: 0)
-# See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
-# The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
-
-# Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
-
-# Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
-#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#   'Accept-Language': 'en',
-#}
 
 
 # Enable or disable extensions
