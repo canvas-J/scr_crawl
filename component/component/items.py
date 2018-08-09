@@ -1,0 +1,72 @@
+# -*- coding: utf-8 -*-
+
+# Define here the models for your scraped items
+#
+# See documentation in:
+# https://doc.scrapy.org/en/latest/topics/items.html
+
+import scrapy
+
+
+class ComponentItem(scrapy.Item):
+    url = scrapy.Field()
+    c_name = scrapy.Field()
+    c_name1 = scrapy.Field()
+    e_name = scrapy.Field()
+    o_name = scrapy.Field()
+    others = scrapy.Field()
+    beian = scrapy.Field()
+    category = scrapy.Field()
+    c_0 = scrapy.Field()
+    c_1 = scrapy.Field()
+    c_2 = scrapy.Field()
+    c_3 = scrapy.Field()
+    c_4 = scrapy.Field()
+    c_5 = scrapy.Field()
+    c_6 = scrapy.Field()
+    c_7 = scrapy.Field()
+    c_8 = scrapy.Field()
+    c_9 = scrapy.Field()
+    c_10 = scrapy.Field()
+    c_11 = scrapy.Field()
+    c_12 = scrapy.Field()
+    c_13 = scrapy.Field()
+    c_14 = scrapy.Field()
+    c_15 = scrapy.Field()
+    c_16 = scrapy.Field()
+    c_17 = scrapy.Field()
+    c_18 = scrapy.Field()
+    c_19 = scrapy.Field()
+    c_20 = scrapy.Field()
+    c_21 = scrapy.Field()
+    c_22 = scrapy.Field()
+    c_23 = scrapy.Field()
+    c_24 = scrapy.Field()
+    c_25 = scrapy.Field()
+    c_26 = scrapy.Field()
+    c_27 = scrapy.Field()
+    c_28 = scrapy.Field()
+    c_29 = scrapy.Field()
+    c_30 = scrapy.Field()
+    c_31 = scrapy.Field()
+    c_32 = scrapy.Field()
+    c_33 = scrapy.Field()
+    c_34 = scrapy.Field()
+    c_35 = scrapy.Field()
+    c_36 = scrapy.Field()
+    c_37 = scrapy.Field()
+    c_38 = scrapy.Field()
+    c_39 = scrapy.Field()
+    c_40 = scrapy.Field()
+    c_41 = scrapy.Field()
+    c_42 = scrapy.Field()
+    c_43 = scrapy.Field()
+    c_44 = scrapy.Field()
+    c_45 = scrapy.Field()
+    c_46 = scrapy.Field()
+    c_47 = scrapy.Field()
+    c_48 = scrapy.Field()
+    c_49 = scrapy.Field()
+    c_50 = scrapy.Field()
+
+
