@@ -2,7 +2,7 @@
 from fake_useragent import UserAgent
 import random, requests
 
-'''
+
 class ProxyTool(object):
 
     def __init__(self):
@@ -33,21 +33,25 @@ class ProxyTool(object):
         for i in range(30):
             proxy = self.get_proxy()
             # if self.ip_test(proxy, 'https://www.taobao.com/', headers):
-            if self.ip_test(proxy, 'https://detail.tmall.com/', headers):
+            if self.ip_test(proxy, 'https://www.atobo.com.cn/', headers):
                 print(proxy)
-                ip_list.append('http://'+proxy)
+                ip_list.append({"ip":"{}".format(proxy)})
             else:
                 self.delete_proxy(proxy)
                 print('代理不可用')
         print("30个ip有{}个可用..".format(len(ip_list)))
         return ip_list
-'''
+
 
 class MyproxiesMidware(object):
 
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.settings)
+
     def __init__(self, crawler):
-        # self.IPpool = ProxyTool().test_proxy
-        self.IPpool = crawler.settings.get('IPPOOL')
+        self.IPpool = ProxyTool().test_proxy
+        # self.IPpool = crawler.settings.get('IPPOOL')
     
     def process_request(self, request, spider):
         current_ip = random.choice(self.IPpool)
