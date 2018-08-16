@@ -10,7 +10,10 @@ from scrapy.linkextractors import LinkExtractor
 class JdgoodsSpider(Spider):
 
     name = 'jdgoods'
-
+    custom_settings = {
+        # specifies exported fields and order
+        'FEED_EXPORT_FIELDS': ["platform", "shop_name", "goods_name", "normal_price", "total_view", "brand", "item0", "item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13", "item14", "item15", "item16"],
+        }
     # def __init__(self):
     #     opt = webdriver.ChromeOptions()
     #     # opt.add_argument('headless')
@@ -99,7 +102,7 @@ class JdgoodsSpider(Spider):
                 l.add_value('brand', '')
 
             try:
-                details = soup.select('.p-parameter > ul[3] > li')
+                details = soup.select('.p-parameter > ul[3] li')
                 for i in range(len(details)):
                     l.add_value('item{}'.format(i), details[i].string)
             except:

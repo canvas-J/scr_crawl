@@ -13,17 +13,17 @@ BOT_NAME = 'jingdong'
 
 SPIDER_MODULES = ['jingdong.spiders']
 NEWSPIDER_MODULE = 'jingdong.spiders'
-JOBDIR = 'jd_items'
+# JOBDIR = 'jd_items'
 
 KEYWORD = '牙膏'
-MAX_PAGE = 1
+MAX_PAGE = 20
 
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False
-
+CONCURRENT_REQUESTS = 12
 DOWNLOAD_DELAY = 1
 RANDOMIZE_DOWNLOAD_DELAY = True
-CONCURRENT_REQUESTS = 3
+
 
 DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36',
         'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -32,8 +32,9 @@ DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebK
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
+        'jingdong.ProxyMidware.MyproxiesMidware': 100,
         'jingdong.multi_selenium.SeleniumMiddleware': 542,
-        'jingdong.UseragentMidware.RandomUseragentMidware': 543, 
+        'jingdong.UseragentMidware.RandomUseragentMidware': 110, 
         'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
         }
 
@@ -50,9 +51,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'jingdong.pipelines.JingdongPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'jingdong.pipelines.OutputPipeline': 200,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
