@@ -68,5 +68,16 @@ class ComponentItem(scrapy.Item):
     c_48 = scrapy.Field()
     c_49 = scrapy.Field()
     c_50 = scrapy.Field()
+    c_51 = scrapy.Field()
+    c_52 = scrapy.Field()
+    c_53 = scrapy.Field()
+    c_54 = scrapy.Field()
+    c_55 = scrapy.Field()
+    c_56 = scrapy.Field()
+    c_57 = scrapy.Field()
+    c_58 = scrapy.Field()
+    c_59 = scrapy.Field()
+    c_60 = scrapy.Field()
+    c_61 = scrapy.Field()
 
 
