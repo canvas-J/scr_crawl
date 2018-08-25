@@ -10,7 +10,7 @@ from scrapy.exporters import CsvItemExporter # 以csv格式输出
 class OutputPipeline(object):
 
     def open_spider(self, spider):
-        self.file = open('review-8-15.csv', 'w')
+        self.file = open('review-8-15.csv', 'wb')
         self.exporter = CsvItemExporter(self.file, encoding='gb18030')
         self.exporter.start_exporting()
 

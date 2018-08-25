@@ -43,18 +43,9 @@ class SeleniumMiddleware(object):
             self.browser.switch_to.window(handle)
             js = r"location.href='%s';" % request.url
             self.browser.execute_script(js)
-            if 'search.jd.com' in request.url:
-                    self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight/2)')
-                    time.sleep(0.8)
-                    self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*7/10)')
-                    time.sleep(0.8)
-                    self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
-                    time.sleep(0.8)
-            elif 'item.jd.com' in request.url:
-                    self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*2/5)')
-                    time.sleep(1)
+
             # wait for 1s to avoid some bug ("document.readyState" will return a "complete" at the first)
-            time.sleep(1)
+            time.sleep(0.5)
 
             # mark url
             self.requests[request.url]={'status':'waiting','handle':handle}
@@ -69,6 +60,16 @@ class SeleniumMiddleware(object):
             document_status=self.browser.execute_script("return document.readyState;")
 
             if document_status=='complete':
+                if 'search.jd.com' in request.url:
+                        self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight/2)')
+                        time.sleep(0.5)
+                        self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*7/10)')
+                        time.sleep(1.2)
+                        self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight)')
+                        time.sleep(0.8)
+                elif 'item.jd.com' in request.url:
+                        self.browser.execute_script('window.scrollTo(0, document.body.scrollHeight*2/5)')
+                        time.sleep(0.5)
                 self.requests[request.url]['status'] = 'done'
                 self.handle_queue.put(handle)
                 return HtmlResponse(url=request.url, body=self.browser.page_source, request=request, encoding='utf-8',

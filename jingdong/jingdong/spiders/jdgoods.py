@@ -12,25 +12,11 @@ class JdgoodsSpider(Spider):
     name = 'jdgoods'
     custom_settings = {
         # specifies exported fields and order
-        'FEED_EXPORT_FIELDS': ["platform", "shop_name", "goods_name", "normal_price", "total_view", "brand", "item0", "item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13", "item14", "item15", "item16"],
+        'FEED_EXPORT_FIELDS': ["platform", "shop_name", "goods_name", "normal_price", "total_views", "brand", "item0", "item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13", "item14", "item15", "item16"],
         }
-    # def __init__(self):
-    #     opt = webdriver.ChromeOptions()
-    #     # opt.add_argument('headless')
-    #     opt.add_argument('disable-gpu')
-    #     opt.add_argument('disable-infobars')
-    #     opt.add_argument('useragent="{}"'.format(UserAgent().random))
-    #     self.browser = webdriver.Chrome(chrome_options=opt)
-    #     self.browser.set_page_load_timeout(30)
-
-    # def closed(self,spider):
-    #     print("spider closed")
-    #     self.browser.close()
 
     def start_requests(self):
         urls = []
-        # keyword = input("请输入你要爬取的关键词\t")
-        # pages = input("请输入你要爬取的页数\t")
         keyword = self.settings.get('KEYWORD')
         pages = self.settings.get('MAX_PAGE')
         for i in range(int(pages)):
@@ -51,11 +37,8 @@ class JdgoodsSpider(Spider):
 
     def parse_item(self, response):
         if response.status==200:
-            soup = bs(response.text, "lxml")
             print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-            # 详情页抽取数据
             l = ItemLoader(item=JingdongItem(), response=response)
-            # 使用add_xpath方法，传递Item类的字段名称和对应的xpath解析语法
             try:
                 l.add_xpath('platform', '//div[@id="logo-2014"]/a/text()')
             except:
@@ -82,7 +65,7 @@ class JdgoodsSpider(Spider):
             #     l.add_value('now_price', '')
 
             # try:
-        #         l.add_xpath('mon_sales', '//p[@id="price"]')
+            #     l.add_xpath('mon_sales', '//p[@id="price"]')
             # except:
             #     l.add_value('mon_sales', '')
 
@@ -102,11 +85,11 @@ class JdgoodsSpider(Spider):
                 l.add_value('brand', '')
 
             try:
-                details = soup.select('.p-parameter > ul[3] li')
+                details = response.xpath('//div[@class="p-parameter"]/ul[2]/*/text()').extract()
                 for i in range(len(details)):
-                    l.add_value('item{}'.format(i), details[i].string)
+                    l.add_value('item{}'.format(i), details[i])
             except:
-                for i in range(6):
+                for i in range(9):
                     l.add_value('item{}'.format(i), '')
             yield l.load_item()
         elif response.status==202:
