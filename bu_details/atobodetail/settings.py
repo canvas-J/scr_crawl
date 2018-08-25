@@ -1,23 +1,14 @@
 # -*- coding: utf-8 -*-
 
 # Scrapy settings for atobodetail project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://doc.scrapy.org/en/latest/topics/settings.html
-#     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
 BOT_NAME = 'atobodetail'
-
 SPIDER_MODULES = ['atobodetail.spiders']
 NEWSPIDER_MODULE = 'atobodetail.spiders'
-JOBDIR='business'
+JOBDIR='detail_dir'
 
 ROBOTSTXT_OBEY = False
-CONCURRENT_REQUESTS = 12
-DOWNLOAD_DELAY = 1
+CONCURRENT_REQUESTS = 9
+# DOWNLOAD_DELAY = 1
 CONCURRENT_REQUESTS_PER_IP = 1
 COOKIES_ENABLED = False
 DEFAULT_REQUEST_HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36',
@@ -25,30 +16,26 @@ DEFAULT_REQUEST_HEADERS = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.3; WOW64) A
   'Accept-Language': 'en',
 }
 
-# Enable or disable spider middlewares
-# See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'atobodetail.middlewares.AtobodetailSpiderMiddleware': 543,
-#}
-
 DOWNLOADER_MIDDLEWARES = {
-    'atobodetail.ProxyMidware.MyproxiesMidware': 541,
-    'atobodetail.multi_selenium.SeleniumMiddleware': 542,
-    'atobodetail.UseragentMidware.RandomUseragentMidware': 543, 
+    'atobodetail.ProxyMidware.MyproxiesMidware': 500,
+    'atobodetail.multi_selenium.SeleniumMiddleware': 350,
+    'atobodetail.UseragentMidware.RandomUseragentMidware': 520, 
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
     }
+
+# ITEM_PIPELINES = {
+#    'atobodetail.pipelines.AtobodetailPipeline': 200,
+# }
+
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
-
-# Configure item pipelines
-# See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'atobodetail.pipelines.AtobodetailPipeline': 300,
-}
+#SPIDER_MIDDLEWARES = {
+#    'atobodetail.middlewares.AtobodetailSpiderMiddleware': 543,
+#}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
