@@ -7,8 +7,8 @@ NEWSPIDER_MODULE = 'plain.spiders'
 
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False
-CONCURRENT_REQUESTS = 9
-# DOWNLOAD_DELAY = 1
+CONCURRENT_REQUESTS = 30
+# DOWNLOAD_DELAY = 2
 # RANDOMIZE_DOWNLOAD_DELAY = True
 
 
@@ -17,9 +17,9 @@ DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebK
         'Accept-Encoding': 'gzip'}
 
 DOWNLOADER_MIDDLEWARES = {
-        # 'plain.ProxyMidware.MyproxiesMidware': 500,
+        # 'plain.ProxyMidware.MyproxiesMidware': 210,
         # 'plain.multi_selenium.SeleniumMiddleware': 350,
-        'plain.UseragentMidware.RandomUseragentMidware': 520, 
+        'plain.UseragentMidware.RandomUseragentMidware': 220, 
         'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
         }
 

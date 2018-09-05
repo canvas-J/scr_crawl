@@ -7,30 +7,21 @@ from scrapy.linkextractors import LinkExtractor
 
 class PlainSpider(Spider):
 
-    name = 'wiwj'
+    name = 'lianjia01'
     custom_settings = {
         # specifies exported fields and order
         'FEED_EXPORT_FIELDS': ["url", "name", "address", "build_year", "buildings", "familys", "area", "subway", "price", "estate"],
         }
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.area_links = pd.DataFrame(pd.read_excel('W-url.xlsx', encoding='gb18030'))
 
     def start_requests(self):
-        urls = list(self.area_links.ix[:, 0])
-        for num, url in enumerate(urls):
-            if "http" not in str(url):
-                continue
-            subway = str(self.area_links.iloc[num, 6])
-            yield Request(url=url, callback=self.parse, meta={'subway':subway,})
+        for num in range(1, 18729//30+2):
+            yield Request(url='https://sh.lianjia.com/xiaoqu/pg{}/'.format(num), callback=self.parse)
 
     def parse(self, response):
-        print(response.text)
-        messages = response.xpath('//div[@class="lfBox lf"]/div/ul/li/div[@class="listCon"]')
-        print(messages)
+        messages = response.xpath('//div[@class="leftContent"]/ul/li/div[@class="info"]')
         for mes in messages:
-            page_link = "https://sh.5i5j.com" + mes.xpath('.//h3/a/@href').extract_first()
-            subway = mes.xpath('.//div/p[last()]/text()')
+            page_link = mes.xpath('.//div[@class="title"]/a/@href').extract_first()
+            subway = mes.xpath('.//div[@class="tagList"]/span/text()').extract_first()
             yield Request(url=page_link, callback=self.parse_item, meta={'subway':subway,})
 
     def parse_item(self, response):
@@ -38,32 +29,32 @@ class PlainSpider(Spider):
         l = ItemLoader(item=PlainItem(), response=response)
         l.add_value('url', response.url)
         try:
-            l.add_xpath('name', '/html/body/div[3]/div[1]/div[1]/h1/text()')
+            l.add_xpath('name', '/html/body/div[4]/div/div[1]/h1/text()')
         except:
             l.add_value('name', '')
 
         try:
-            l.add_xpath('address', '/html/body/div[3]/div[1]/div[1]/p/text()')
+            l.add_xpath('address', '/html/body/div[4]/div/div[1]/div/text()')
         except:
             l.add_value('address', '')
 
         try:
-            l.add_xpath('build_year', '//div[@class="content fr"]/div[@class="xqfangs"]/ul/li[1]/text()')
+            l.add_xpath('build_year', '/html/body/div[6]/div[2]/div[2]/div[1]/span[2]/text()')
         except:
             l.add_value('build_year', '')
 
         try:
-            l.add_xpath('buildings', '//div[@class="content fr"]/div[@class="xqfangs"]/ul/li[2]/text()')
+            l.add_xpath('buildings', '/html/body/div[6]/div[2]/div[2]/div[6]/span[2]/text()')
         except:
             l.add_value('buildings', '')
 
         try:
-            l.add_xpath('familys', '//div[@class="content fr"]/div[@class="xqfangs"]/ul/li[3]/text()')
+            l.add_xpath('familys', '/html/body/div[6]/div[2]/div[2]/div[7]/span[2]/text()')
         except:
             l.add_value('familys', '')
 
         try:
-            l.add_xpath('area', '/html/body/div[2]/div/div[1]/a[3]/text()')
+            l.add_xpath('area', '/html/body/div[5]/div[1]/a[3]/text()')
         except:
             l.add_value('area', '')
             
@@ -73,12 +64,12 @@ class PlainSpider(Spider):
             l.add_value('subway', '')
 
         try:
-            l.add_xpath('price', '//div[@class="content fr"]/div[1]/span/text()')
+            l.add_xpath('price', '/html/body/div[6]/div[2]/div[1]/div/span[1]/text()')
         except:
             l.add_value('price', '')
 
         try:
-            l.add_xpath('estate', '//div[@class="xqsaleinfo"]/ul/li[2]/em/text()')
+            l.add_xpath('estate', '/html/body/div[6]/div[2]/div[2]/div[4]/span[2]/text()')
         except:
             l.add_value('estate', '')
 

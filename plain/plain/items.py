@@ -8,12 +8,57 @@ def strip_name(value):
         goods_name = value.replace(" ", "").replace("\n", "")
     except:
         goods_name = value.strip()
-
     return goods_name
 
 class PlainItem(Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    area_index = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    search_name = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    total = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    num = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    location_lat = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    location_lng = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    province = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    city = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    street_id = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    telephone = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    detail = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    uid = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
     url = Field(
         input_processor = MapCompose(remove_tags),
         output_processor = Join(),
@@ -34,13 +79,10 @@ class PlainItem(Item):
         input_processor = MapCompose(remove_tags),
         output_processor = Join(),
     )
-    # now_price = Field()
-    # mon_sales = Field()
     familys = Field(
         input_processor = MapCompose(remove_tags),
         output_processor = Join(),
     )
-    # stock = Field()
     area = Field(
         input_processor = MapCompose(remove_tags),
         output_processor = TakeFirst(),
@@ -90,6 +132,38 @@ class PlainItem(Item):
         output_processor = Join(),
     )
     item8 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item9 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item10 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item11 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item12 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item13 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item14 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item15 = Field(
+        input_processor = MapCompose(remove_tags),
+        output_processor = Join(),
+    )
+    item16 = Field(
         input_processor = MapCompose(remove_tags),
         output_processor = Join(),
     )

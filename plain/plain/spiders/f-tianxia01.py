@@ -7,7 +7,7 @@ from scrapy.linkextractors import LinkExtractor
 
 class PlainSpider(Spider):
 
-    name = 'f-tianxia'
+    name = 'ftx01'
     custom_settings = {
         # specifies exported fields and order
         'FEED_EXPORT_FIELDS': ["url", "name", "area", "price", "item0", "item1", "item2", "item3", "item4",
@@ -16,13 +16,13 @@ class PlainSpider(Spider):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.area_links = pd.DataFrame(pd.read_excel('F-url01.xlsx', encoding='gb18030'))
+        self.area_links = pd.DataFrame(pd.read_excel('F-url.xlsx', encoding='gb18030'))
 
     def start_requests(self):
         urls = list(self.area_links.ix[:, 0])
         # urls = ['https://sh.esf.fang.com/housing/25_1646_0_0_0_0_1_0_0_0/']
         for url in urls:
-            yield Request(url=str(url), callback=self.parse_item)
+            yield Request(url=str(url), callback=self.parse)
 
     def parse(self, response):
         page_num = response.xpath('/html/body/div[4]/div[5]/ul/li[3]/span/span/text()').extract_first().split('/')[-1]

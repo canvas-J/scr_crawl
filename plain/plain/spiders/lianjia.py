@@ -27,7 +27,7 @@ class PlainSpider(Spider):
         messages = response.xpath('//div[@class="leftContent"]/ul/li/div[@class="info"]')
         for mes in messages:
             page_link = mes.xpath('.//div[@class="title"]/a/@href').extract_first()
-            subway = mes.xpath('.//div[last()]/span/text()').extract_first()
+            subway = mes.xpath('.//div[@class="tagList"]/span/text()').extract_first()
             yield Request(url=page_link, callback=self.parse_item, meta={'subway':subway,})
         if "/pg" not in str(response.url):
             for num in range(2, 31):

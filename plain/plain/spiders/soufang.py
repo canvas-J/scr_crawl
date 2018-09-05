@@ -15,23 +15,24 @@ class PlainSpider(Spider):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.area_links = pd.DataFrame(pd.read_excel('S-url.xlsx',encoding='gb18030'))
+        self.area_links = pd.DataFrame(pd.read_excel('S-url.xlsx', encoding='gb18030'))
 
     def start_requests(self):
-        urls = list(self.area_links.ix[:, 0])
-        # urls = ['http://www.sofang.com/saleesb/area/aa2992']
+        # urls = list(self.area_links.ix[:, 0])
+        urls = ['http://www.sofang.com/saleesb/area/aa2992']
         for url in urls:
             yield Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        print(response.text)
         messages = response.xpath('//div[@class="list list_free xinfang"]/dl/dd[@class="house_msg"]')
         for mes in messages:
-            page_link = mes.xpath('.//p/a/@href').extract_first()
+            page_link = 'http://www.sofang.com' + mes.xpath('.//p/a/@href').extract_first()
             # subway = mes.xpath('.//div/p[last()]/span/a[2]/text()').extract_first()
-            yield Request(url=page_link, callback=self.parse_item)
+            yield Request(url=page_link.replace('index','bd'), callback=self.parse_item)
         if "-bl" not in str(response.url):
-            for num in range(2, 201):
-                yield Request(url="{}-bl{}?".format(response.url.replace('index','bd'),num), callback=self.parse)
+            for num in range(2, 4):
+                yield Request(url="{}-bl{}?".format(response.url,num), callback=self.parse)
 
     def parse_item(self, response):
         print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
