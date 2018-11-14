@@ -15,3 +15,7 @@ class ReviewItem(scrapy.Item):
     shijian2 = scrapy.Field()
     zhuiping = scrapy.Field()
 
+    url = scrapy.Field()
+    seller_id = scrapy.Field()
+    name = scrapy.Field()
+

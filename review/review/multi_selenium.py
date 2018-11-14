@@ -45,7 +45,7 @@ class SeleniumMiddleware(object):
             self.browser.execute_script(js)
 
             # wait for 1s to avoid some bug ("document.readyState" will return a "complete" at the first)
-            time.sleep(random.uniform(1, 3))
+            time.sleep(random.uniform(0.5, 0.8))
 
             # mark url
             self.requests[request.url]={'status':'waiting','handle':handle}

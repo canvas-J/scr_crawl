@@ -18,7 +18,7 @@ DEFAULT_REQUEST_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 5.1) AppleWebK
     'Accept-Encoding': 'gzip'}
 
 DOWNLOADER_MIDDLEWARES = {
-    'review.ProxyMidware.MyproxiesMidware': 100,
+    # 'review.ProxyMidware.MyproxiesMidware': 100,
     'review.multi_selenium.SeleniumMiddleware': 542,
     'review.UseragentMidware.RandomUseragentMidware': 110, 
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None

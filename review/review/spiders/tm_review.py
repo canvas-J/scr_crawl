@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy, json, re
 from review.items import ReviewItem
+import pandas as pd
 
 
 class ViewSpider(scrapy.Spider):
@@ -11,16 +12,15 @@ class ViewSpider(scrapy.Spider):
         }
 
     def start_requests(self):
-        links = []
+        '''
+        属性值、特性相同的商品就可以称为一个SPU,Standard Product Unit （标准化产品单元）
+        '''
+
+        df = pd.read_excel('评论链接.xlsx', encoding='gb18030')
         for i in range(100):
-            links.append("https://rate.tmall.com/list_detail_rate.htm?itemId=544777674225&spuId=722377432&sellerId=2987441916&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&ua=098".format(i+1))
-            links.append("https://rate.tmall.com/list_detail_rate.htm?itemId=544529437073&spuId=721054050&sellerId=2509849149&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&ua=098".format(i+1))
-            links.append("https://rate.tmall.com/list_detail_rate.htm?itemId=531869578250&spuId=573117493&sellerId=748612647&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&ua=098".format(i+1))
-            links.append("https://rate.tmall.com/list_detail_rate.htm?itemId=549983235705&spuId=693976831&sellerId=2963458513&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&ua=098".format(i+1))
-            links.append("https://rate.tmall.com/list_detail_rate.htm?itemId=544828890290&spuId=721092887&sellerId=3014868997&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&ua=098".format(i+1))
-        for url in links:
-            rate_id = url[51:63]
-            yield scrapy.Request(url=url, callback=self.parse, meta={'rate_id': rate_id})
+            for row in range(len(df)):
+                yield scrapy.Request(url="https://rate.tmall.com/list_detail_rate.htm?itemId={}&sellerId={}&order=1&currentPage={}&append=0&content=1&tagId=&posi=&picture=&groupId=&ua=098".format(df.ix[row,'itemid'], df.ix[row,'sellerid'], i+1),
+                        callback=self.parse, meta={'rate_id': df.ix[row,'itemid']})
 
     def parse(self, response):
         if response.status==200:
